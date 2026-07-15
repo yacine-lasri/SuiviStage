@@ -1,0 +1,174 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Dashboard Admin{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="fw-bold mb-0">
+                <i class="fa-solid fa-gauge me-2"></i>Dashboard Administrateur
+            </h2>
+            <p class="text-muted mb-0">Vue d'ensemble de la plateforme</p>
+        </div>
+        <a href="/admin/" class="btn btn-outline-danger">
+            <i class="fa-solid fa-gear me-1"></i>Admin Django
+        </a>
+    </div>
+
+    <div class="row g-4 mb-5">
+        <div class="col-sm-6 col-lg-2">
+            <div class="card text-white bg-primary h-100 shadow">
+                <div class="card-body text-center py-3">
+                    <i class="fa-solid fa-user-graduate fa-2x mb-2"></i>
+                    <h3 class="mb-0">{{ nb_etudiants }}</h3>
+                    <small>Étudiants</small>
+                </div>
+                <a href="{% url 'etudiant_list' %}" class="card-footer text-white text-center text-decoration-none py-1">
+                    <small>Voir <i class="fa-solid fa-arrow-right ms-1"></i></small>
+                </a>
+            </div>
+        </div>
+        <div class="col-sm-6 col-lg-2">
+            <div class="card text-white bg-success h-100 shadow">
+                <div class="card-body text-center py-3">
+                    <i class="fa-solid fa-briefcase fa-2x mb-2"></i>
+                    <h3 class="mb-0">{{ nb_stages }}</h3>
+                    <small>Stages</small>
+                </div>
+                <a href="{% url 'stage_list' %}" class="card-footer text-white text-center text-decoration-none py-1">
+                    <small>Voir <i class="fa-solid fa-arrow-right ms-1"></i></small>
+                </a>
+            </div>
+        </div>
+        <div class="col-sm-6 col-lg-2">
+            <div class="card text-white bg-info h-100 shadow">
+                <div class="card-body text-center py-3">
+                    <i class="fa-solid fa-building fa-2x mb-2"></i>
+                    <h3 class="mb-0">{{ nb_entreprises }}</h3>
+                    <small>Entreprises</small>
+                </div>
+                <a href="{% url 'entreprise_list' %}" class="card-footer text-white text-center text-decoration-none py-1">
+                    <small>Voir <i class="fa-solid fa-arrow-right ms-1"></i></small>
+                </a>
+            </div>
+        </div>
+        <div class="col-sm-6 col-lg-2">
+            <div class="card text-white bg-secondary h-100 shadow">
+                <div class="card-body text-center py-3">
+                    <i class="fa-solid fa-handshake fa-2x mb-2"></i>
+                    <h3 class="mb-0">{{ nb_encadrements }}</h3>
+                    <small>Encadrements</small>
+                </div>
+                <a href="/admin/encadrement/encadrement/" class="card-footer text-white text-center text-decoration-none py-1">
+                    <small>Voir <i class="fa-solid fa-arrow-right ms-1"></i></small>
+                </a>
+            </div>
+        </div>
+        <div class="col-sm-6 col-lg-2">
+            <div class="card text-white bg-warning h-100 shadow">
+                <div class="card-body text-center py-3">
+                    <i class="fa-solid fa-star fa-2x mb-2"></i>
+                    <h3 class="mb-0">{{ nb_evaluations }}</h3>
+                    <small>Évaluations</small>
+                </div>
+                <a href="{% url 'evaluation_list' %}" class="card-footer text-white text-center text-decoration-none py-1">
+                    <small>Voir <i class="fa-solid fa-arrow-right ms-1"></i></small>
+                </a>
+            </div>
+        </div>
+        <div class="col-sm-6 col-lg-2">
+            <div class="card text-white bg-dark h-100 shadow">
+                <div class="card-body text-center py-3">
+                    <i class="fa-solid fa-file-alt fa-2x mb-2"></i>
+                    <h3 class="mb-0">{{ nb_rapports }}</h3>
+                    <small>Rapports</small>
+                </div>
+                <a href="{% url 'rapport_list' %}" class="card-footer text-white text-center text-decoration-none py-1">
+                    <small>Voir <i class="fa-solid fa-arrow-right ms-1"></i></small>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-lg-6">
+            <div class="card shadow-sm">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0"><i class="fa-solid fa-clock me-2"></i>Stages en cours</h5>
+                </div>
+                <div class="card-body p-0">
+                    {% if stages_en_cours %}
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead class="table-light">
+                                <tr><th>Sujet</th><th>Étudiant</th><th>Entreprise</th></tr>
+                            </thead>
+                            <tbody>
+                                {% for stage in stages_en_cours %}
+                                <tr>
+                                    <td><a href="{% url 'stage_detail' stage.pk %}">{{ stage.sujet|truncatewords:5 }}</a></td>
+                                    <td>{{ stage.etudiant }}</td>
+                                    <td>{{ stage.entreprise }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% else %}
+                    <p class="text-muted p-3 mb-0">Aucun stage en cours.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-dark text-white">
+                    <h5 class="mb-0"><i class="fa-solid fa-file-alt me-2"></i>Derniers rapports</h5>
+                </div>
+                <div class="card-body p-0">
+                    {% if derniers_rapports %}
+                    <ul class="list-group list-group-flush">
+                        {% for r in derniers_rapports %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <strong>{{ r.titre|truncatewords:6 }}</strong><br>
+                                <small class="text-muted">{{ r.stage.etudiant }} — {{ r.date_depot|date:"d/m/Y" }}</small>
+                            </div>
+                            <a href="{% url 'rapport_detail' r.pk %}" class="btn btn-sm btn-outline-primary"><i class="fa-solid fa-eye"></i></a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    {% else %}
+                    <p class="text-muted p-3 mb-0">Aucun rapport.</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="card shadow-sm">
+                <div class="card-header bg-warning text-white">
+                    <h5 class="mb-0"><i class="fa-solid fa-star me-2"></i>Dernières évaluations</h5>
+                </div>
+                <div class="card-body p-0">
+                    {% if dernieres_evaluations %}
+                    <ul class="list-group list-group-flush">
+                        {% for e in dernieres_evaluations %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <strong>{{ e.stage.etudiant }}</strong><br>
+                                <small class="text-muted">{{ e.stage.sujet|truncatewords:5 }}</small>
+                            </div>
+                            <span class="badge bg-{% if e.note >= 10 %}success{% else %}danger{% endif %} fs-6">{{ e.note }}/20</span>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    {% else %}
+                    <p class="text-muted p-3 mb-0">Aucune évaluation.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

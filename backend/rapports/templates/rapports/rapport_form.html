@@ -1,0 +1,28 @@
+{% extends 'base/base.html' %}
+{% block title %}{% if object %}Modifier{% else %}Nouveau{% endif %} Rapport{% endblock %}
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-body p-4">
+                    <h2 class="mb-4">
+                        <i class="fa-solid fa-file-alt me-2"></i>
+                        {% if object %}Modifier{% else %}Nouveau{% endif %} Rapport
+                    </h2>
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button type="submit" class="btn btn-primary w-100 mt-3">
+                            <i class="fa-solid fa-save me-2"></i>Enregistrer
+                        </button>
+                        <a href="{% url 'rapport_list' %}" class="btn btn-secondary w-100 mt-2">
+                            Annuler
+                        </a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

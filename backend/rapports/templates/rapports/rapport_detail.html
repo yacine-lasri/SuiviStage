@@ -1,0 +1,45 @@
+{% extends 'base/base.html' %}
+{% block title %}{{ rapport.titre }}{% endblock %}
+{% block content %}
+<div class="container my-5">
+    <a href="{% url 'rapport_list' %}" class="btn btn-light my-3">
+        <i class="fa-solid fa-arrow-left me-1"></i>Retour
+    </a>
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-header bg-secondary text-white">
+                    <h4 class="mb-0"><i class="fa-solid fa-file-alt me-2"></i>{{ rapport.titre }}</h4>
+                </div>
+                <div class="list-group list-group-flush">
+                    <div class="list-group-item">
+                        <strong>Stage :</strong>
+                        <a href="{% url 'stage_detail' rapport.stage.pk %}">{{ rapport.stage }}</a>
+                    </div>
+                    <div class="list-group-item">
+                        <strong>Étudiant :</strong> {{ rapport.stage.etudiant }}
+                    </div>
+                    <div class="list-group-item">
+                        <strong>Date de dépôt :</strong> {{ rapport.date_depot }}
+                    </div>
+                    {% if rapport.fichier %}
+                    <div class="list-group-item">
+                        <a href="{{ rapport.fichier.url }}" class="btn btn-primary" target="_blank">
+                            <i class="fa-solid fa-download me-1"></i>Télécharger le fichier
+                        </a>
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="card-footer">
+                    <a href="{% url 'rapport_update' rapport.pk %}" class="btn btn-warning btn-sm">
+                        <i class="fa-solid fa-pen me-1"></i>Modifier
+                    </a>
+                    <a href="{% url 'rapport_delete' rapport.pk %}" class="btn btn-danger btn-sm">
+                        <i class="fa-solid fa-trash me-1"></i>Supprimer
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

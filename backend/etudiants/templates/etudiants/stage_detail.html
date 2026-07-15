@@ -1,0 +1,125 @@
+{% extends 'base/base.html' %}
+{% block title %}{{ stage.sujet }}{% endblock %}
+{% block content %}
+<div class="container my-5">
+    <a href="{% url 'stage_list' %}" class="btn btn-light my-3">
+        <i class="fa-solid fa-arrow-left me-1"></i>Retour aux stages
+    </a>
+
+    <div class="row g-4">
+        <!-- Stage Info -->
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-header bg-success text-white">
+                    <h4 class="mb-0"><i class="fa-solid fa-briefcase me-2"></i>{{ stage.sujet }}</h4>
+                </div>
+                <div class="list-group list-group-flush">
+                    <div class="list-group-item">
+                        <strong>Étudiant :</strong>
+                        <a href="{% url 'etudiant_detail' stage.etudiant.pk %}">{{ stage.etudiant }}</a>
+                    </div>
+                    <div class="list-group-item">
+                        <strong>Entreprise :</strong>
+                        <a href="{% url 'entreprise_detail' stage.entreprise.pk %}">{{ stage.entreprise }}</a>
+                    </div>
+                    <div class="list-group-item">
+                        <strong>Période :</strong> {{ stage.date_debut }} → {{ stage.date_fin }}
+                    </div>
+                    <div class="list-group-item">
+                        <strong>Statut :</strong>
+                        <span class="badge {% if stage.statut == 'en_cours' %}bg-success{% elif stage.statut == 'termine' %}bg-secondary{% else %}bg-danger{% endif %}">
+                            {{ stage.get_statut_display }}
+                        </span>
+                    </div>
+                    {% if stage.description %}
+                    <div class="list-group-item">
+                        <strong>Description :</strong><br>{{ stage.description }}
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="card-footer">
+                    <a href="{% url 'stage_update' stage.pk %}" class="btn btn-warning btn-sm">
+                        <i class="fa-solid fa-pen me-1"></i>Modifier
+                    </a>
+                    <a href="{% url 'stage_delete' stage.pk %}" class="btn btn-danger btn-sm">
+                        <i class="fa-solid fa-trash me-1"></i>Supprimer
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Related: Encadrements -->
+        <div class="col-md-6">
+            <div class="card shadow mb-4">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0"><i class="fa-solid fa-chalkboard-teacher me-2"></i>Encadrements</h5>
+                </div>
+                <div class="card-body">
+                    {% if encadrements %}
+                    <ul class="list-group list-group-flush">
+                        {% for enc in encadrements %}
+                        <li class="list-group-item">
+                            <strong>{{ enc.encadrant_nom }}</strong> ({{ enc.role }})<br>
+                            <small class="text-muted">{{ enc.date_debut }} → {{ enc.date_fin }}</small>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    {% else %}
+                    <p class="text-muted mb-0">Aucun encadrement assigné.</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Related: Evaluations -->
+            <div class="card shadow mb-4">
+                <div class="card-header bg-warning text-white">
+                    <h5 class="mb-0"><i class="fa-solid fa-star me-2"></i>Évaluations</h5>
+                </div>
+                <div class="card-body">
+                    {% if evaluations %}
+                    <ul class="list-group list-group-flush">
+                        {% for eval in evaluations %}
+                        <li class="list-group-item">
+                            <strong>{{ eval.note }}/20</strong>
+                            {% if eval.commentaire %} — {{ eval.commentaire }}{% endif %}
+                            <br><small class="text-muted">{{ eval.date_evaluation }}</small>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    {% else %}
+                    <p class="text-muted mb-0">Aucune évaluation.</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Related: Rapports -->
+            <div class="card shadow">
+                <div class="card-header bg-secondary text-white">
+                    <h5 class="mb-0"><i class="fa-solid fa-file-alt me-2"></i>Rapports</h5>
+                </div>
+                <div class="card-body">
+                    {% if rapports %}
+                    <ul class="list-group list-group-flush">
+                        {% for rapport in rapports %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <strong>{{ rapport.titre }}</strong><br>
+                                <small class="text-muted">{{ rapport.date_depot }}</small>
+                            </div>
+                            {% if rapport.fichier %}
+                            <a href="{{ rapport.fichier.url }}" class="btn btn-sm btn-primary" target="_blank">
+                                <i class="fa-solid fa-download"></i>
+                            </a>
+                            {% endif %}
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    {% else %}
+                    <p class="text-muted mb-0">Aucun rapport déposé.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

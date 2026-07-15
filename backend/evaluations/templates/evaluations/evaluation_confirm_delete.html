@@ -1,0 +1,27 @@
+{% extends 'base/base.html' %}
+{% block title %}Supprimer Évaluation{% endblock %}
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow border-danger">
+                <div class="card-body p-4 text-center">
+                    <h2 class="text-danger mb-4">
+                        <i class="fa-solid fa-triangle-exclamation me-2"></i>Confirmer la suppression
+                    </h2>
+                    <p>Êtes-vous sûr de vouloir supprimer l'évaluation de <strong>{{ object.stage.etudiant }}</strong> ({{ object.note }}/20) ?</p>
+                    <form method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger me-2">
+                            <i class="fa-solid fa-trash me-1"></i>Supprimer
+                        </button>
+                        <a href="{% url 'evaluation_list' %}" class="btn btn-secondary">
+                            Annuler
+                        </a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

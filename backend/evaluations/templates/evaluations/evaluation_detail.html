@@ -1,0 +1,47 @@
+{% extends 'base/base.html' %}
+{% block title %}Évaluation — {{ evaluation.stage.etudiant }}{% endblock %}
+{% block content %}
+<div class="container my-5">
+    <a href="{% url 'evaluation_list' %}" class="btn btn-light my-3">
+        <i class="fa-solid fa-arrow-left me-1"></i>Retour
+    </a>
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-header bg-warning text-white">
+                    <h4 class="mb-0"><i class="fa-solid fa-star me-2"></i>Évaluation</h4>
+                </div>
+                <div class="list-group list-group-flush">
+                    <div class="list-group-item">
+                        <strong>Stage :</strong>
+                        <a href="{% url 'stage_detail' evaluation.stage.pk %}">{{ evaluation.stage }}</a>
+                    </div>
+                    <div class="list-group-item">
+                        <strong>Étudiant :</strong> {{ evaluation.stage.etudiant }}
+                    </div>
+                    <div class="list-group-item">
+                        <strong>Note :</strong>
+                        <span class="badge bg-{% if evaluation.note >= 10 %}success{% else %}danger{% endif %} fs-6">
+                            {{ evaluation.note }}/20
+                        </span>
+                    </div>
+                    <div class="list-group-item">
+                        <strong>Commentaire :</strong><br>{{ evaluation.commentaire|default:"—" }}
+                    </div>
+                    <div class="list-group-item">
+                        <strong>Date :</strong> {{ evaluation.date_evaluation }}
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <a href="{% url 'evaluation_update' evaluation.pk %}" class="btn btn-warning btn-sm">
+                        <i class="fa-solid fa-pen me-1"></i>Modifier
+                    </a>
+                    <a href="{% url 'evaluation_delete' evaluation.pk %}" class="btn btn-danger btn-sm">
+                        <i class="fa-solid fa-trash me-1"></i>Supprimer
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

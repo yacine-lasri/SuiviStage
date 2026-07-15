@@ -1,0 +1,58 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Bienvenue{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="p-5 mb-4 bg-light rounded-3 text-center">
+        <div class="container-fluid py-5">
+            <i class="fa-solid fa-graduation-cap fa-3x text-primary mb-3"></i>
+            <h1 class="display-4 fw-bold">Suivi de Stage</h1>
+            <p class="col-md-8 mx-auto fs-5 text-muted">
+                Plateforme de gestion des stages pour le programme 3IIR Centre.
+                Gérez vos stagiaires, entreprises, rapports et évaluations facilement.
+            </p>
+            <hr class="my-4">
+            <div class="d-flex justify-content-center gap-3">
+                <a href="{% url 'login' %}" class="btn btn-primary btn-lg">
+                    <i class="fa-solid fa-right-to-bracket me-2"></i>Se connecter
+                </a>
+                <a href="{% url 'signup' %}" class="btn btn-outline-primary btn-lg">
+                    <i class="fa-solid fa-user-plus me-2"></i>S'inscrire
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Feature highlights -->
+    <div class="row g-4 text-center">
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body py-4">
+                    <i class="fa-solid fa-user-graduate fa-2x text-primary mb-3"></i>
+                    <h5>Gestion des Étudiants</h5>
+                    <p class="text-muted">Suivez les parcours de stage de chaque étudiant.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body py-4">
+                    <i class="fa-solid fa-building fa-2x text-info mb-3"></i>
+                    <h5>Entreprises Partenaires</h5>
+                    <p class="text-muted">Gérez les relations avec les entreprises d'accueil.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body py-4">
+                    <i class="fa-solid fa-star fa-2x text-warning mb-3"></i>
+                    <h5>Évaluations & Rapports</h5>
+                    <p class="text-muted">Déposez vos rapports et consultez vos notes.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

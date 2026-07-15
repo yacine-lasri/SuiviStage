@@ -1,0 +1,27 @@
+{% extends 'base/base.html' %}
+{% block title %}Supprimer Etudiant{% endblock %}
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow border-danger">
+                <div class="card-body p-4 text-center">
+                    <h2 class="text-danger mb-4">
+                        <i class="fa-solid fa-triangle-exclamation me-2"></i>Confirmer la suppression
+                    </h2>
+                    <p>Êtes-vous sûr de vouloir supprimer <strong>{{ object.prenom }} {{ object.nom }}</strong> ?</p>
+                    <form method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger me-2">
+                            <i class="fa-solid fa-trash me-1"></i>Supprimer
+                        </button>
+                        <a href="{% url 'etudiant_list' %}" class="btn btn-secondary">
+                            Annuler
+                        </a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
